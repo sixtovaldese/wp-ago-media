@@ -1,0 +1,473 @@
+/* aGo Media Admin Styles */
+
+/* Layout (shared .ago-* pattern) */
+.ago-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.ago-main {
+    flex: 1;
+    max-width: 780px;
+}
+
+.ago-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+    .ago-layout { flex-direction: column; }
+    .ago-sidebar { width: 100%; max-width: 780px; }
+}
+
+.ago-card {
+    max-width: 100% !important;
+}
+
+/* Sections */
+.ago-section {
+    margin: 20px 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.ago-section:last-of-type {
+    border-bottom: none;
+}
+
+.ago-section h3 {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: #1d2327;
+}
+
+/* Toggle rows */
+.ago-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    margin: 4px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.15s;
+}
+
+.ago-toggle-row:hover {
+    background: #f0f6fc;
+}
+
+.ago-toggle-label {
+    flex: 1;
+}
+
+.ago-toggle-desc {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.ago-warning {
+    color: #d63638;
+    font-weight: 600;
+}
+
+/* Switch (iOS-style toggle) */
+.ago-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.ago-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.ago-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #c3c4c7;
+    border-radius: 24px;
+    transition: 0.3s;
+}
+
+.ago-slider::before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.ago-switch input:checked + .ago-slider {
+    background: #2271b1;
+}
+
+.ago-switch input:checked + .ago-slider::before {
+    transform: translateX(20px);
+}
+
+/* Range row */
+.ago-range-row {
+    padding: 10px 12px;
+    margin: 4px 0;
+}
+
+.ago-range-row label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.ago-range-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ago-range-control input[type="range"] {
+    flex: 1;
+    max-width: 300px;
+}
+
+.ago-range-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+    min-width: 32px;
+    text-align: center;
+}
+
+/* Input row */
+.ago-input-row {
+    padding: 10px 12px;
+    margin: 4px 0;
+}
+
+.ago-input-row label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.ago-input-row input[type="number"] {
+    width: 100px;
+}
+
+/* Actions */
+.ago-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+}
+
+/* Stats card */
+.ago-stats-card {
+    border-left: 4px solid #2271b1;
+}
+
+.ago-stats-grid {
+    display: flex;
+    gap: 32px;
+    padding: 12px 0;
+}
+
+.ago-stat {
+    text-align: center;
+}
+
+.ago-stat-number {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: #2271b1;
+    line-height: 1.2;
+}
+
+.ago-stat-label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* Tabs */
+.ago-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #c3c4c7;
+    margin: 16px 0 0;
+}
+
+.ago-tab {
+    padding: 10px 18px;
+    border: none;
+    background: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.ago-tab:hover {
+    color: #2271b1;
+}
+
+.ago-tab.active {
+    color: #2271b1;
+    border-bottom-color: #2271b1;
+}
+
+.ago-tab-count {
+    display: inline-block;
+    background: #f0f0f1;
+    border-radius: 10px;
+    padding: 1px 8px;
+    font-size: 11px;
+    margin-left: 4px;
+    font-weight: 600;
+}
+
+.ago-tab-count:empty {
+    display: none;
+}
+
+.ago-tab.active .ago-tab-count {
+    background: #2271b1;
+    color: #fff;
+}
+
+/* Tab content */
+.ago-tab-content {
+    display: none;
+    padding: 16px 0;
+}
+
+.ago-tab-content.active {
+    display: block;
+}
+
+/* Audit table */
+.ago-audit-table {
+    margin: 0;
+}
+
+.ago-audit-table td {
+    vertical-align: middle;
+}
+
+.ago-audit-table .ago-thumb {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #f0f0f1;
+}
+
+.ago-audit-loading {
+    text-align: center;
+    padding: 24px;
+    color: #666;
+    font-size: 13px;
+}
+
+.ago-audit-empty {
+    text-align: center;
+    padding: 24px;
+    color: #00a32a;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.ago-audit-empty::before {
+    content: "\2713 ";
+}
+
+/* Duplicates groups */
+.ago-duplicates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ago-dup-group {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 12px;
+}
+
+.ago-dup-group h4 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: #1d2327;
+}
+
+.ago-dup-group .ago-dup-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ago-dup-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.ago-dup-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+/* Status message */
+#ago-media-status {
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+#ago-media-status.success {
+    background: #edfaef;
+    border: 1px solid #00a32a;
+    color: #00601b;
+}
+
+#ago-media-status.error {
+    background: #fcf0f1;
+    border: 1px solid #d63638;
+    color: #8a1114;
+}
+
+/* Features list */
+.ago-features {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+}
+
+.ago-features li {
+    font-size: 13px;
+    padding: 3px 0;
+    color: #555;
+}
+
+.ago-features li::before {
+    content: "\2713";
+    color: #00a32a;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+/* Donation */
+.ago-donation {
+    text-align: center;
+}
+
+.ago-donation-amounts {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 12px 0;
+}
+
+.ago-amount {
+    display: inline-block;
+    padding: 8px 18px;
+    background: #f0f0f1;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    color: #1d2327;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.ago-amount:hover {
+    background: #2271b1;
+    color: #fff;
+    border-color: #2271b1;
+}
+
+.ago-coffee-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    background: #1d2327;
+    color: #fff !important;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    margin: 8px 0;
+}
+
+.ago-coffee-btn:hover {
+    background: #2271b1;
+    color: #fff !important;
+}
+
+.ago-donation-note {
+    font-size: 11px;
+    color: #999;
+    margin-top: 8px;
+}
+
+/* Footer */
+.ago-footer {
+    text-align: center;
+    padding: 16px 0;
+}
+
+.ago-footer-logo {
+    display: inline-block;
+    margin-bottom: 8px;
+    transition: opacity 0.2s;
+}
+
+.ago-footer-logo:hover {
+    opacity: 0.8;
+}
+
+.ago-footer p {
+    font-size: 13px;
+    color: #666;
+    margin: 4px 0;
+}
+
+.ago-footer a {
+    color: #2271b1;
+    text-decoration: none;
+}
