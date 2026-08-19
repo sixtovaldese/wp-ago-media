@@ -1,6 +1,3 @@
-/* aGo Media Admin Styles */
-
-/* Layout (shared .ago-* pattern) */
 .ago-layout {
     display: flex;
     gap: 20px;
@@ -27,7 +24,6 @@
     max-width: 100% !important;
 }
 
-/* Sections */
 .ago-section {
     margin: 20px 0;
     padding-bottom: 16px;
@@ -44,7 +40,6 @@
     color: #1d2327;
 }
 
-/* Toggle rows */
 .ago-toggle-row {
     display: flex;
     align-items: center;
@@ -77,7 +72,6 @@
     font-weight: 600;
 }
 
-/* Switch (iOS-style toggle) */
 .ago-switch {
     position: relative;
     display: inline-block;
@@ -124,7 +118,6 @@
     transform: translateX(20px);
 }
 
-/* Range row */
 .ago-range-row {
     padding: 10px 12px;
     margin: 4px 0;
@@ -155,7 +148,6 @@
     text-align: center;
 }
 
-/* Input row */
 .ago-input-row {
     padding: 10px 12px;
     margin: 4px 0;
@@ -171,7 +163,6 @@
     width: 100px;
 }
 
-/* Actions */
 .ago-actions {
     display: flex;
     gap: 8px;
@@ -181,7 +172,6 @@
     border-top: 1px solid #eee;
 }
 
-/* Stats card */
 .ago-stats-card {
     border-left: 4px solid #2271b1;
 }
@@ -211,7 +201,6 @@
     margin-top: 4px;
 }
 
-/* Tabs */
 .ago-tabs {
     display: flex;
     gap: 0;
@@ -260,7 +249,6 @@
     color: #fff;
 }
 
-/* Tab content */
 .ago-tab-content {
     display: none;
     padding: 16px 0;
@@ -270,7 +258,6 @@
     display: block;
 }
 
-/* Audit table */
 .ago-audit-table {
     margin: 0;
 }
@@ -306,7 +293,6 @@
     content: "\2713 ";
 }
 
-/* Duplicates groups */
 .ago-duplicates-list {
     display: flex;
     flex-direction: column;
@@ -348,7 +334,6 @@
     border-radius: 3px;
 }
 
-/* Status message */
 #ago-media-status {
     padding: 10px 14px;
     border-radius: 4px;
@@ -368,7 +353,6 @@
     color: #8a1114;
 }
 
-/* Features list */
 .ago-features {
     list-style: none;
     padding: 0;
@@ -388,7 +372,6 @@
     margin-right: 8px;
 }
 
-/* Donation */
 .ago-donation {
     text-align: center;
 }
@@ -445,7 +428,6 @@
     margin-top: 8px;
 }
 
-/* Footer */
 .ago-footer {
     text-align: center;
     padding: 16px 0;

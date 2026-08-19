@@ -16,6 +16,7 @@ class Audit {
 
         // Get all image attachments that have no _wp_attachment_image_alt meta
         // or where the meta value is empty.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $ids = $wpdb->get_col(
             "SELECT p.ID
              FROM {$wpdb->posts} p
@@ -40,6 +41,7 @@ class Audit {
     public function get_orphaned(): array {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $ids = $wpdb->get_col(
             "SELECT ID
              FROM {$wpdb->posts}
@@ -63,6 +65,7 @@ class Audit {
         global $wpdb;
 
         // Find filenames that appear more than once.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $rows = $wpdb->get_results(
             "SELECT pm.meta_value AS file_path, GROUP_CONCAT(pm.post_id ORDER BY pm.post_id) AS ids
              FROM {$wpdb->postmeta} pm

@@ -207,9 +207,9 @@ class Converter {
     }
 
     private function track_conversion( int $bytes_saved ): void {
-        $stats = get_option( 'ago_media_stats', [ 'converted' => 0, 'bytes_saved' => 0 ] );
+        $stats = get_option( 'agomedia_stats', [ 'converted' => 0, 'bytes_saved' => 0 ] );
         $stats['converted']++;
         $stats['bytes_saved'] += max( 0, $bytes_saved );
-        update_option( 'ago_media_stats', $stats );
+        update_option( 'agomedia_stats', $stats );
     }
 }

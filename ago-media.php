@@ -13,10 +13,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AGO_MEDIA_VERSION', '1.0.0' );
-define( 'AGO_MEDIA_FILE', __FILE__ );
-define( 'AGO_MEDIA_PATH', plugin_dir_path( __FILE__ ) );
-define( 'AGO_MEDIA_URL', plugin_dir_url( __FILE__ ) );
+define( 'AGOMEDIA_VERSION', '1.0.0' );
+define( 'AGOMEDIA_FILE', __FILE__ );
+define( 'AGOMEDIA_PATH', plugin_dir_path( __FILE__ ) );
+define( 'AGOMEDIA_URL', plugin_dir_url( __FILE__ ) );
 
 // PSR-4 Autoloader
 spl_autoload_register( function ( string $class ): void {
@@ -25,7 +25,7 @@ spl_autoload_register( function ( string $class ): void {
         return;
     }
     $relative = substr( $class, strlen( $prefix ) );
-    $file     = AGO_MEDIA_PATH . 'src/' . str_replace( '\\', '/', $relative ) . '.php';
+    $file     = AGOMEDIA_PATH . 'src/' . str_replace( '\\', '/', $relative ) . '.php';
     if ( file_exists( $file ) ) {
         require_once $file;
     }

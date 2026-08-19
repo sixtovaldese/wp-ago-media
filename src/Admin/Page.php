@@ -10,15 +10,14 @@ class Page {
         ?>
         <div class="wrap">
             <h1>
-                <img src="<?php echo esc_url( AGO_MEDIA_URL . 'assets/img/agolab.webp' ); ?>" alt="aGo Lab" style="height:28px;width:auto;vertical-align:middle;margin-right:8px">
+                <img src="<?php echo esc_url( AGOMEDIA_URL . 'assets/img/agolab.webp' ); ?>" alt="aGo Lab" style="height:28px;width:auto;vertical-align:middle;margin-right:8px">
                 <?php esc_html_e( 'aGo Media', 'ago-media' ); ?>
-                <span style="font-size:12px;color:#999;margin-left:8px">v<?php echo esc_html( AGO_MEDIA_VERSION ); ?></span>
+                <span style="font-size:12px;color:#999;margin-left:8px">v<?php echo esc_html( AGOMEDIA_VERSION ); ?></span>
             </h1>
 
             <div class="ago-layout">
                 <div class="ago-main">
 
-                    <!-- Settings -->
                     <div class="card ago-card">
                         <h2><?php esc_html_e( 'Optimization Settings', 'ago-media' ); ?></h2>
                         <p><?php esc_html_e( 'Configure image optimization for new uploads. Changes are saved immediately.', 'ago-media' ); ?></p>
@@ -95,7 +94,6 @@ class Page {
                         </div>
                     </div>
 
-                    <!-- Stats -->
                     <div class="card ago-card ago-stats-card">
                         <h2><?php esc_html_e( 'Optimization Stats', 'ago-media' ); ?></h2>
                         <div class="ago-stats-grid">
@@ -110,7 +108,6 @@ class Page {
                         </div>
                     </div>
 
-                    <!-- Audits -->
                     <div class="card ago-card">
                         <h2><?php esc_html_e( 'Media Audit', 'ago-media' ); ?></h2>
                         <p><?php esc_html_e( 'Click a tab to scan your media library for issues.', 'ago-media' ); ?></p>
@@ -211,10 +208,8 @@ class Page {
 
                 </div>
 
-                <!-- SIDEBAR -->
                 <div class="ago-sidebar">
 
-                    <!-- About -->
                     <div class="card ago-card">
                         <h3><?php esc_html_e( 'About', 'ago-media' ); ?></h3>
                         <p style="font-size:13px;color:#666">
@@ -229,9 +224,14 @@ class Page {
                             <li><?php esc_html_e( 'Audit: duplicate images', 'ago-media' ); ?></li>
                             <li><?php esc_html_e( 'Track space saved', 'ago-media' ); ?></li>
                         </ul>
+                        <p style="margin-top:12px">
+                            <a href="https://ago.cl/herramientas/wordpress/ago-media/docs" target="_blank" rel="noopener">
+                                <span class="dashicons dashicons-book" style="vertical-align:middle;margin-right:4px"></span>
+                                <?php esc_html_e( 'Documentation', 'ago-media' ); ?>
+                            </a>
+                        </p>
                     </div>
 
-                    <!-- Donation -->
                     <div class="card ago-card ago-donation">
                         <h3><?php esc_html_e( 'Support Open Source', 'ago-media' ); ?></h3>
                         <p style="font-size:13px;color:#666">
@@ -251,10 +251,9 @@ class Page {
                         </p>
                     </div>
 
-                    <!-- Footer with logo -->
                     <div class="ago-footer">
                         <a href="https://ago.cl" target="_blank" rel="noopener" class="ago-footer-logo">
-                            <img src="<?php echo esc_url( AGO_MEDIA_URL . 'assets/img/agolab.webp' ); ?>" alt="aGo Lab" style="height:40px;width:auto">
+                            <img src="<?php echo esc_url( AGOMEDIA_URL . 'assets/img/agolab.webp' ); ?>" alt="aGo Lab" style="height:40px;width:auto">
                         </a>
                         <p>
                             <?php

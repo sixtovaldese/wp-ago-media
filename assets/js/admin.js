@@ -1,23 +1,19 @@
-/* aGo Media Admin JS */
 (function () {
     'use strict';
 
     var $ = document.querySelector.bind(document);
     var $$ = document.querySelectorAll.bind(document);
 
-    var restUrl = agoMedia.restUrl;
-    var nonce   = agoMedia.nonce;
-    var settings = agoMedia.settings;
+    var restUrl = agomediaMedia.restUrl;
+    var nonce   = agomediaMedia.nonce;
+    var settings = agomediaMedia.settings;
 
     var saveBtn   = $('#ago-save-settings');
     var statusBox = $('#ago-media-status');
 
     if (!saveBtn) return;
 
-    /* ───── Initialize settings controls ───── */
-
     function initSettings() {
-        // Checkboxes
         $$('[data-key]').forEach(function (el) {
             var key = el.getAttribute('data-key');
             if (el.type === 'checkbox') {
@@ -27,7 +23,6 @@
             }
         });
 
-        // Quality slider display
         var qualitySlider = $('#ago-webp-quality');
         var qualityValue  = $('#ago-quality-value');
         if (qualitySlider && qualityValue) {
@@ -39,8 +34,6 @@
     }
 
     initSettings();
-
-    /* ───── Save settings ───── */
 
     saveBtn.addEventListener('click', function () {
         var data = {};
@@ -92,8 +85,6 @@
         }, 3000);
     }
 
-    /* ───── Stats ───── */
-
     function loadStats() {
         fetch(restUrl + '/stats', {
             headers: { 'X-WP-Nonce': nonce },
@@ -118,34 +109,26 @@
 
     loadStats();
 
-    /* ───── Tabs ───── */
-
     var tabsLoaded = {};
 
     $$('.ago-tab').forEach(function (tab) {
         tab.addEventListener('click', function () {
             var tabName = this.getAttribute('data-tab');
 
-            // Activate tab button
             $$('.ago-tab').forEach(function (t) { t.classList.remove('active'); });
             this.classList.add('active');
 
-            // Show tab content
             $$('.ago-tab-content').forEach(function (p) { p.classList.remove('active'); });
             var panel = $('#ago-panel-' + tabName);
             if (panel) panel.classList.add('active');
 
-            // Load data if not already loaded
             if (!tabsLoaded[tabName]) {
                 loadAudit(tabName);
             }
         });
     });
 
-    // Auto-load first tab
     loadAudit('missing-alt');
-
-    /* ───── Load audit data ───── */
 
     function loadAudit(tab) {
         var endpoint = '/audit/' + tab;
@@ -254,8 +237,6 @@
         return div.innerHTML;
     }
 
-    /* ───── Non-WebP / Optimize tab ───── */
-
     function renderNonWebp(panel, data) {
         var items   = data.items || [];
         var table   = panel.querySelector('.ago-audit-table');
@@ -284,13 +265,12 @@
                 '<td>' + escHtml(item.title) + '</td>' +
                 '<td>' + escHtml(item.mime) + '</td>' +
                 '<td>' + escHtml(item.size_human) + '</td>' +
-                '<td class="ago-opt-status">,</td>';
+                '<td class="ago-opt-status"></td>';
             tbody.appendChild(tr);
         });
 
         table.style.display = 'table';
 
-        // Select All checkbox
         var selectAll = $('#ago-select-all-webp');
         if (selectAll) {
             selectAll.checked = true;
@@ -300,7 +280,6 @@
             });
         }
 
-        // Optimize button
         var optimizeBtn = $('#ago-optimize-selected');
         if (optimizeBtn) {
             optimizeBtn.addEventListener('click', function () {
@@ -324,15 +303,14 @@
         if (btn) { btn.disabled = true; btn.textContent = 'Optimizing...'; }
         if (progress) progress.textContent = '0 / ' + total;
 
-        // Process in batches of 3
         var queue = ids.slice();
         var batchSize = 3;
 
         function processBatch() {
             if (!queue.length) {
                 if (btn) { btn.disabled = false; btn.textContent = 'Optimize Selected'; }
-                if (progress) progress.textContent = 'Done! Saved ' + formatBytes(totalSaved) + ' total.';
-                loadStats(); // refresh stats
+                if (progress) progress.textContent = 'Done. Saved ' + formatBytes(totalSaved) + ' total.';
+                loadStats();
                 return;
             }
 

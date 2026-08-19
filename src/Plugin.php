@@ -21,8 +21,6 @@ class Plugin {
         add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
-        register_activation_hook( AGO_MEDIA_FILE, [ $this, 'activate' ] );
-
         // Init upload hooks.
         $this->init_upload_hooks();
     }
@@ -30,33 +28,18 @@ class Plugin {
     /* ───── Textdomain ───── */
 
     public function load_textdomain(): void {
-        load_plugin_textdomain( 'ago-media', false, dirname( plugin_basename( AGO_MEDIA_FILE ) ) . '/languages' );
-    }
-
-    public function activate(): void {
-        // Initialize default settings if not present.
-        if ( false === get_option( 'ago_media_settings' ) ) {
-            update_option( 'ago_media_settings', self::defaults() );
-        }
-
-        // Initialize stats if not present.
-        if ( false === get_option( 'ago_media_stats' ) ) {
-            update_option( 'ago_media_stats', [
-                'converted'  => 0,
-                'bytes_saved' => 0,
-            ] );
-        }
+        load_plugin_textdomain( 'ago-media', false, dirname( plugin_basename( AGOMEDIA_FILE ) ) . '/languages' );
     }
 
     /* ───── Admin menu (smart pattern) ───── */
 
     public function register_admin_menu(): void {
-        if ( empty( $GLOBALS['admin_page_hooks']['ago-tools'] ) ) {
+        if ( empty( $GLOBALS['admin_page_hooks']['agolab-tools'] ) ) {
             add_menu_page(
                 __( 'aGo Tools', 'ago-media' ),
                 __( 'aGo Tools', 'ago-media' ),
                 'manage_options',
-                'ago-tools',
+                'agolab-tools',
                 '__return_null',
                 'dashicons-hammer',
                 81
@@ -64,15 +47,15 @@ class Plugin {
         }
 
         add_submenu_page(
-            'ago-tools',
+            'agolab-tools',
             __( 'aGo Media', 'ago-media' ),
             __( 'Media', 'ago-media' ),
             'manage_options',
-            'ago-media',
+            'agomedia',
             [ Admin\Page::class, 'render' ]
         );
 
-        remove_submenu_page( 'ago-tools', 'ago-tools' );
+        remove_submenu_page( 'agolab-tools', 'agolab-tools' );
     }
 
     /* ───── REST routes ───── */
@@ -213,6 +196,7 @@ class Plugin {
     public function handle_audit_non_webp(): \WP_REST_Response {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $rows = $wpdb->get_results(
             "SELECT ID, post_title, post_mime_type, guid
              FROM {$wpdb->posts}
@@ -232,7 +216,7 @@ class Plugin {
                 'title'     => $row['post_title'],
                 'mime'      => $row['post_mime_type'],
                 'size'      => $file && file_exists( $file ) ? filesize( $file ) : 0,
-                'size_human' => $file && file_exists( $file ) ? size_format( filesize( $file ) ) : ',',
+                'size_human' => $file && file_exists( $file ) ? size_format( filesize( $file ) ) : '0 B',
                 'thumbnail' => wp_get_attachment_image_url( $row['ID'], 'thumbnail' ) ?: '',
             ];
         }
@@ -267,13 +251,13 @@ class Plugin {
             $settings['max_dimension'] = 10000;
         }
 
-        update_option( 'ago_media_settings', $settings );
+        update_option( 'agomedia_settings', $settings );
 
         return new \WP_REST_Response( [ 'saved' => true, 'settings' => $settings ] );
     }
 
     public function handle_get_stats(): \WP_REST_Response {
-        $stats = get_option( 'ago_media_stats', [ 'converted' => 0, 'bytes_saved' => 0 ] );
+        $stats = get_option( 'agomedia_stats', [ 'converted' => 0, 'bytes_saved' => 0 ] );
         return new \WP_REST_Response( $stats );
     }
 
@@ -295,26 +279,26 @@ class Plugin {
     /* ───── Assets ───── */
 
     public function enqueue_assets( string $hook ): void {
-        if ( ! str_ends_with( $hook, '_page_ago-media' ) ) {
+        if ( ! str_ends_with( $hook, '_page_agomedia' ) ) {
             return;
         }
 
         wp_enqueue_style(
-            'ago-media-admin',
-            AGO_MEDIA_URL . 'assets/css/admin.css',
+            'agomedia-admin',
+            AGOMEDIA_URL . 'assets/css/admin.css',
             [],
-            AGO_MEDIA_VERSION
+            AGOMEDIA_VERSION
         );
 
         wp_enqueue_script(
-            'ago-media-admin',
-            AGO_MEDIA_URL . 'assets/js/admin.js',
+            'agomedia-admin',
+            AGOMEDIA_URL . 'assets/js/admin.js',
             [],
-            AGO_MEDIA_VERSION,
+            AGOMEDIA_VERSION,
             true
         );
 
-        wp_localize_script( 'ago-media-admin', 'agoMedia', [
+        wp_localize_script( 'agomedia-admin', 'agomediaMedia', [
             'restUrl'  => rest_url( 'ago-media/v1' ),
             'nonce'    => wp_create_nonce( 'wp_rest' ),
             'settings' => $this->get_settings(),
@@ -398,7 +382,7 @@ class Plugin {
     /** @return array<string, mixed> */
     private function get_settings(): array {
         return wp_parse_args(
-            get_option( 'ago_media_settings', [] ),
+            get_option( 'agomedia_settings', [] ),
             self::defaults()
         );
     }
