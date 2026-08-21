@@ -4,6 +4,7 @@
  * Plugin URI:  https://ago.cl/herramientas/
  * Description: Image optimization on upload (WebP conversion, auto-resize, EXIF stripping) and media auditing (missing ALT, orphaned, duplicates).
  * Version:     1.0.0
+ * Requires at least: 6.0
  * Requires PHP: 8.1
  * Author:      aGo Lab
  * Author URI:  https://ago.cl/

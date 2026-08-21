@@ -9,7 +9,7 @@ class Audit {
     /**
      * Get images without ALT text.
      *
-     * @return array<int, array{id: int, title: string, url: string, thumbnail_url: string, edit_url: string}>
+     * @return array<int, array{id: int, title: string, url: string, thumbnail_url: string, file_missing: bool, edit_url: string}>
      */
     public function get_missing_alt(): array {
         global $wpdb;
@@ -36,7 +36,7 @@ class Audit {
     /**
      * Get orphaned media (not attached to any post).
      *
-     * @return array<int, array{id: int, title: string, url: string, thumbnail_url: string, edit_url: string}>
+     * @return array<int, array{id: int, title: string, url: string, thumbnail_url: string, file_missing: bool, edit_url: string}>
      */
     public function get_orphaned(): array {
         global $wpdb;
@@ -96,7 +96,7 @@ class Audit {
      * Format attachment IDs into structured result arrays.
      *
      * @param  array<int|string> $ids
-     * @return array<int, array{id: int, title: string, url: string, thumbnail_url: string, edit_url: string}>
+     * @return array<int, array{id: int, title: string, url: string, thumbnail_url: string, file_missing: bool, edit_url: string}>
      */
     private function format_results( array $ids ): array {
         $results = [];
@@ -112,11 +112,19 @@ class Audit {
             $title     = get_the_title( $id );
             $edit_url  = get_edit_post_link( $id, 'raw' );
 
+            /*
+             * A library can hold records whose file is gone: a failed sync, a
+             * restore that missed the uploads folder. Saying so is more useful
+             * than a broken image in the table.
+             */
+            $file = get_attached_file( $id );
+
             $results[] = [
                 'id'            => $id,
                 'title'         => $title ?: '(' . __( 'untitled', 'ago-media' ) . ')',
                 'url'           => $url ?: '',
                 'thumbnail_url' => $thumb ?: '',
+                'file_missing'  => ! ( $file && file_exists( $file ) ),
                 'edit_url'      => $edit_url ?: admin_url( 'post.php?post=' . $id . '&action=edit' ),
             ];
         }

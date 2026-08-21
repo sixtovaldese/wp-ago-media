@@ -25,7 +25,8 @@ aGo Media optimizes images as they are uploaded to the WordPress media library: 
 * Audit: duplicate detection by filename.
 * Optimize existing attachments in bulk.
 * No external services. All processing happens on your server using GD or Imagick.
-* English, Spanish (es_ES) and Brazilian Portuguese (pt_BR) bundled.
+* Fully internationalized. Translations are contributed and delivered through translate.wordpress.org.
+* Completely free. No Pro tier, no locked features.
 
 == Installation ==
 
@@ -49,9 +50,9 @@ When an image is converted to WebP, the original JPG or PNG is replaced by the n
 
 == Screenshots ==
 
-1. Media dashboard with optimization toggles.
-2. Audit tab listing images without ALT text.
-3. Orphaned attachments view.
+1. Optimization settings, conversion stats and the media audit on one screen.
+2. The audit listing attachments that are not used in any post, with a marker on the records whose file is missing from the uploads folder.
+3. Existing JPG and PNG images selected for conversion to WebP.
 
 == External services ==
 
@@ -68,7 +69,6 @@ The plugin stores two options (agomedia_settings, agomedia_stats) and short-live
 * WebP conversion, auto-resize and EXIF stripping on upload.
 * Bulk optimization of existing attachments.
 * Audits for missing ALT text, orphaned media and duplicate filenames.
-* English, Spanish and Brazilian Portuguese included.
 
 == Upgrade Notice ==
 

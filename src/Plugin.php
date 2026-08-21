@@ -16,19 +16,12 @@ class Plugin {
     }
 
     private function __construct() {
-        add_action( 'init', [ $this, 'load_textdomain' ] );
         add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
         add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
         // Init upload hooks.
         $this->init_upload_hooks();
-    }
-
-    /* ───── Textdomain ───── */
-
-    public function load_textdomain(): void {
-        load_plugin_textdomain( 'ago-media', false, dirname( plugin_basename( AGOMEDIA_FILE ) ) . '/languages' );
     }
 
     /* ───── Admin menu (smart pattern) ───── */
@@ -66,7 +59,7 @@ class Plugin {
         };
 
         // Settings
-        register_rest_route( 'ago-media/v1', '/settings', [
+        register_rest_route( 'agomedia/v1', '/settings', [
             [
                 'methods'             => 'GET',
                 'callback'            => [ $this, 'handle_get_settings' ],
@@ -80,40 +73,40 @@ class Plugin {
         ] );
 
         // Stats
-        register_rest_route( 'ago-media/v1', '/stats', [
+        register_rest_route( 'agomedia/v1', '/stats', [
             'methods'             => 'GET',
             'callback'            => [ $this, 'handle_get_stats' ],
             'permission_callback' => $admin_check,
         ] );
 
         // Audits
-        register_rest_route( 'ago-media/v1', '/audit/missing-alt', [
+        register_rest_route( 'agomedia/v1', '/audit/missing-alt', [
             'methods'             => 'GET',
             'callback'            => [ $this, 'handle_audit_missing_alt' ],
             'permission_callback' => $admin_check,
         ] );
 
-        register_rest_route( 'ago-media/v1', '/audit/orphaned', [
+        register_rest_route( 'agomedia/v1', '/audit/orphaned', [
             'methods'             => 'GET',
             'callback'            => [ $this, 'handle_audit_orphaned' ],
             'permission_callback' => $admin_check,
         ] );
 
-        register_rest_route( 'ago-media/v1', '/audit/duplicates', [
+        register_rest_route( 'agomedia/v1', '/audit/duplicates', [
             'methods'             => 'GET',
             'callback'            => [ $this, 'handle_audit_duplicates' ],
             'permission_callback' => $admin_check,
         ] );
 
         // Optimize existing attachment(s).
-        register_rest_route( 'ago-media/v1', '/optimize', [
+        register_rest_route( 'agomedia/v1', '/optimize', [
             'methods'             => 'POST',
             'callback'            => [ $this, 'handle_optimize' ],
             'permission_callback' => $admin_check,
         ] );
 
         // List non-WebP images eligible for optimization.
-        register_rest_route( 'ago-media/v1', '/audit/non-webp', [
+        register_rest_route( 'agomedia/v1', '/audit/non-webp', [
             'methods'             => 'GET',
             'callback'            => [ $this, 'handle_audit_non_webp' ],
             'permission_callback' => $admin_check,
@@ -138,7 +131,7 @@ class Plugin {
         foreach ( array_map( 'absint', $ids ) as $id ) {
             $file = get_attached_file( $id );
             if ( ! $file || ! file_exists( $file ) ) {
-                $results[] = [ 'id' => $id, 'ok' => false, 'msg' => 'File not found' ];
+                $results[] = [ 'id' => $id, 'ok' => false, 'msg' => __( 'File not found', 'ago-media' ) ];
                 continue;
             }
 
@@ -182,8 +175,9 @@ class Plugin {
                 'ok'    => true,
                 'saved' => $saved,
                 'msg'   => $saved > 0
-                    ? sprintf( 'Saved %s', size_format( $saved ) )
-                    : 'Already optimized',
+                    /* translators: %s is a file size, such as 120 KB. */
+                    ? sprintf( __( 'Saved %s', 'ago-media' ), size_format( $saved ) )
+                    : __( 'Already optimized', 'ago-media' ),
             ];
         }
 
@@ -211,12 +205,23 @@ class Plugin {
         $items = [];
         foreach ( $rows as $row ) {
             $file = get_attached_file( $row['ID'] );
+
+            /*
+             * A record whose file is gone cannot be converted, so it is left out
+             * of this list instead of offering an action that would fail. The
+             * ALT and orphaned audits do show those records, where knowing the
+             * file is missing is the useful part.
+             */
+            if ( ! $file || ! file_exists( $file ) ) {
+                continue;
+            }
+
             $items[] = [
                 'id'        => (int) $row['ID'],
                 'title'     => $row['post_title'],
                 'mime'      => $row['post_mime_type'],
-                'size'      => $file && file_exists( $file ) ? filesize( $file ) : 0,
-                'size_human' => $file && file_exists( $file ) ? size_format( filesize( $file ) ) : '0 B',
+                'size'      => filesize( $file ),
+                'size_human' => size_format( filesize( $file ) ),
                 'thumbnail' => wp_get_attachment_image_url( $row['ID'], 'thumbnail' ) ?: '',
             ];
         }
@@ -299,10 +304,23 @@ class Plugin {
         );
 
         wp_localize_script( 'agomedia-admin', 'agomediaMedia', [
-            'restUrl'  => rest_url( 'ago-media/v1' ),
+            'restUrl'  => rest_url( 'agomedia/v1' ),
             'nonce'    => wp_create_nonce( 'wp_rest' ),
             'settings' => $this->get_settings(),
             'webpSupported' => Converter::is_webp_supported(),
+            'i18n'     => [
+                'saving'         => __( 'Saving...', 'ago-media' ),
+                'saveBtn'        => __( 'Save Settings', 'ago-media' ),
+                'saved'          => __( 'Settings saved successfully.', 'ago-media' ),
+                'saveFailed'     => __( 'The settings could not be saved.', 'ago-media' ),
+                'errorLabel'     => __( 'Error', 'ago-media' ),
+                'loadFailed'     => __( 'The data could not be loaded.', 'ago-media' ),
+                'fileMissing'    => __( 'The file of this record is missing from the uploads folder.', 'ago-media' ),
+                'optimizing'     => __( 'Optimizing...', 'ago-media' ),
+                'optimizeBtn'    => __( 'Optimize Selected', 'ago-media' ),
+                /* translators: %s is a file size, such as 1.2 MB. */
+                'optimizeDone'   => __( 'Done. %s saved in total.', 'ago-media' ),
+            ],
         ] );
     }
 

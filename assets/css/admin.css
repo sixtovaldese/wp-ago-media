@@ -453,3 +453,33 @@
     color: #2271b1;
     text-decoration: none;
 }
+
+.ago-thumb-missing {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #c3c4c7;
+    border-radius: 3px;
+    background: #f6f7f7;
+    color: #a7aaad;
+}
+
+.ago-thumb-missing .dashicons {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.ago-optimize-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.ago-optimize-actions label {
+    white-space: nowrap;
+}

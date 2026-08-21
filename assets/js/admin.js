@@ -5,6 +5,23 @@
     var $$ = document.querySelectorAll.bind(document);
 
     var restUrl = agomediaMedia.restUrl;
+    var t = agomediaMedia.i18n || {};
+
+    /*
+     * A record whose file is gone gets a placeholder instead of a broken image,
+     * with the file-missing state spelled out for whoever reads the table.
+     */
+    function thumbCell(item) {
+        if (item.file_missing || !item.thumbnail_url) {
+            return '<span class="ago-thumb ago-thumb-missing" title="' + escHtml(t.fileMissing || '') + '">' +
+                '<span class="dashicons dashicons-format-image"></span></span>';
+        }
+        return '<img class="ago-thumb" src="' + escHtml(item.thumbnail_url) + '" alt="" loading="lazy">';
+    }
+
+    function fill(template, value) {
+        return String(template || '').replace('%s', value);
+    }
     var nonce   = agomediaMedia.nonce;
     var settings = agomediaMedia.settings;
 
@@ -48,7 +65,7 @@
         });
 
         saveBtn.disabled = true;
-        saveBtn.textContent = 'Saving...';
+        saveBtn.textContent = t.saving;
 
         fetch(restUrl + '/settings', {
             method: 'POST',
@@ -62,17 +79,17 @@
         .then(function (res) {
             if (res.saved) {
                 settings = res.settings;
-                showStatus('success', 'Settings saved successfully.');
+                showStatus('success', t.saved);
             } else {
-                showStatus('error', 'Error saving settings.');
+                showStatus('error', t.saveFailed);
             }
         })
         .catch(function (err) {
-            showStatus('error', 'Error: ' + err.message);
+            showStatus('error', t.errorLabel + ': ' + err.message);
         })
         .finally(function () {
             saveBtn.disabled = false;
-            saveBtn.textContent = 'Save Settings';
+            saveBtn.textContent = t.saveBtn;
         });
     });
 
@@ -162,7 +179,7 @@
             }
         })
         .catch(function () {
-            if (loading) loading.textContent = 'Error loading data.';
+            if (loading) loading.textContent = t.loadFailed;
         });
     }
 
@@ -184,7 +201,7 @@
         items.forEach(function (item) {
             var tr = document.createElement('tr');
             tr.innerHTML =
-                '<td><img class="ago-thumb" src="' + escHtml(item.thumbnail_url || '') + '" alt="" loading="lazy"></td>' +
+                '<td>' + thumbCell(item) + '</td>' +
                 '<td>' + escHtml(item.title) + '</td>' +
                 '<td>' + item.id + '</td>' +
                 '<td><a href="' + escHtml(item.edit_url) + '" target="_blank">Edit</a></td>';
@@ -217,7 +234,7 @@
             var html = '<h4>' + escHtml(filename) + ' (' + items.length + ' copies)</h4><div class="ago-dup-items">';
             items.forEach(function (item) {
                 html += '<div class="ago-dup-item">' +
-                    '<img src="' + escHtml(item.thumbnail_url || '') + '" alt="" loading="lazy">' +
+                    thumbCell(item) +
                     '<span>ID: ' + item.id + '</span>' +
                     '<a href="' + escHtml(item.edit_url) + '" target="_blank">Edit</a>' +
                     '</div>';
@@ -261,7 +278,7 @@
             tr.dataset.id = item.id;
             tr.innerHTML =
                 '<td><input type="checkbox" class="ago-opt-check" value="' + item.id + '" checked></td>' +
-                '<td><img class="ago-thumb" src="' + escHtml(item.thumbnail || '') + '" alt="" loading="lazy" style="width:40px;height:40px;object-fit:cover"></td>' +
+                '<td>' + thumbCell({ thumbnail_url: item.thumbnail }) + '</td>' +
                 '<td>' + escHtml(item.title) + '</td>' +
                 '<td>' + escHtml(item.mime) + '</td>' +
                 '<td>' + escHtml(item.size_human) + '</td>' +
@@ -300,7 +317,7 @@
         var done = 0;
         var totalSaved = 0;
 
-        if (btn) { btn.disabled = true; btn.textContent = 'Optimizing...'; }
+        if (btn) { btn.disabled = true; btn.textContent = t.optimizing; }
         if (progress) progress.textContent = '0 / ' + total;
 
         var queue = ids.slice();
@@ -308,8 +325,8 @@
 
         function processBatch() {
             if (!queue.length) {
-                if (btn) { btn.disabled = false; btn.textContent = 'Optimize Selected'; }
-                if (progress) progress.textContent = 'Done. Saved ' + formatBytes(totalSaved) + ' total.';
+                if (btn) { btn.disabled = false; btn.textContent = t.optimizeBtn; }
+                if (progress) progress.textContent = fill(t.optimizeDone, formatBytes(totalSaved));
                 loadStats();
                 return;
             }
@@ -334,7 +351,7 @@
                     if (row) {
                         var status = row.querySelector('.ago-opt-status');
                         if (status) {
-                            status.textContent = res.ok ? res.msg : 'Error: ' + res.msg;
+                            status.textContent = res.ok ? res.msg : t.errorLabel + ': ' + res.msg;
                             status.style.color = res.ok ? '#00a32a' : '#d63638';
                         }
                     }
@@ -343,8 +360,8 @@
                 processBatch();
             })
             .catch(function (err) {
-                if (progress) progress.textContent = 'Error: ' + err.message;
-                if (btn) { btn.disabled = false; btn.textContent = 'Optimize Selected'; }
+                if (progress) progress.textContent = t.errorLabel + ': ' + err.message;
+                if (btn) { btn.disabled = false; btn.textContent = t.optimizeBtn; }
             });
         }
 

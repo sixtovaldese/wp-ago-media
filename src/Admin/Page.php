@@ -180,7 +180,7 @@ class Page {
                                 <?php esc_html_e( 'JPG/PNG images that can be converted to WebP to save space. Select images and click "Optimize Selected".', 'ago-media' ); ?>
                             </p>
                             <div class="ago-audit-loading"><?php esc_html_e( 'Loading...', 'ago-media' ); ?></div>
-                            <div class="ago-optimize-actions" style="display:none;margin-bottom:12px">
+                            <div class="ago-optimize-actions" style="display:none">
                                 <label><input type="checkbox" id="ago-select-all-webp"> <?php esc_html_e( 'Select All', 'ago-media' ); ?></label>
                                 <button type="button" class="button button-primary" id="ago-optimize-selected">
                                     <?php esc_html_e( 'Optimize Selected', 'ago-media' ); ?>
@@ -211,6 +211,16 @@ class Page {
                 <div class="ago-sidebar">
 
                     <div class="card ago-card">
+                        <h3><?php esc_html_e( 'Quick links', 'ago-media' ); ?></h3>
+                        <ul class="ago-features" style="list-style:none;padding:0;margin:0">
+                            <li><a href="https://ago.cl/herramientas/wordpress/ago-media/docs" target="_blank" rel="noopener"><?php esc_html_e( 'Documentation', 'ago-media' ); ?></a></li>
+                            <li><a href="https://pagespeed.web.dev/" target="_blank" rel="noopener"><?php esc_html_e( 'Measure your pages before and after', 'ago-media' ); ?></a></li>
+                            <li><a href="https://wordpress.org/documentation/article/optimization-wordpress-performance/" target="_blank" rel="noopener"><?php esc_html_e( 'Performance guide, WordPress documentation', 'ago-media' ); ?></a></li>
+                            <li><a href="https://caniuse.com/webp" target="_blank" rel="noopener"><?php esc_html_e( 'Which browsers read WebP', 'ago-media' ); ?></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card ago-card">
                         <h3><?php esc_html_e( 'About', 'ago-media' ); ?></h3>
                         <p style="font-size:13px;color:#666">
                             <?php esc_html_e( 'Automatic image optimization on upload and media library auditing tools.', 'ago-media' ); ?>
@@ -223,12 +233,28 @@ class Page {
                             <li><?php esc_html_e( 'Audit: orphaned media', 'ago-media' ); ?></li>
                             <li><?php esc_html_e( 'Audit: duplicate images', 'ago-media' ); ?></li>
                             <li><?php esc_html_e( 'Track space saved', 'ago-media' ); ?></li>
+                            <li><?php esc_html_e( 'Available in your language when the translation exists', 'ago-media' ); ?></li>
+                            <li><?php esc_html_e( 'Completely free, no Pro tier', 'ago-media' ); ?></li>
                         </ul>
                         <p style="margin-top:12px">
                             <a href="https://ago.cl/herramientas/wordpress/ago-media/docs" target="_blank" rel="noopener">
                                 <span class="dashicons dashicons-book" style="vertical-align:middle;margin-right:4px"></span>
                                 <?php esc_html_e( 'Documentation', 'ago-media' ); ?>
                             </a>
+                        </p>
+                    </div>
+
+                    <div class="card ago-card">
+                        <h3 style="margin-top:0"><?php esc_html_e( 'Other aGo Lab plugins', 'ago-media' ); ?></h3>
+                        <p style="font-size:13px;color:#666;margin-top:0"><?php esc_html_e( 'Free WordPress plugins from the same team. No upsell pressure.', 'ago-media' ); ?></p>
+                        <ul class="ago-features">
+                            <li><strong>aGo Migrator</strong>, <?php esc_html_e( 'Full-site backup and migration in one archive.', 'ago-media' ); ?></li>
+                            <li><strong>aGo Mail Pilot</strong>, <?php esc_html_e( 'Guided SMTP email delivery.', 'ago-media' ); ?></li>
+                            <li><strong>aGo AI Chatbot</strong>, <?php esc_html_e( 'AI customer support widget for your site.', 'ago-media' ); ?></li>
+                            <li><strong>aGo Access</strong>, <?php esc_html_e( 'Accessibility toolbar and automatic fixes.', 'ago-media' ); ?></li>
+                        </ul>
+                        <p>
+                            <a href="https://ago.cl/herramientas/" target="_blank" rel="noopener" class="button button-secondary" style="width:100%;text-align:center"><?php esc_html_e( 'Browse aGo Lab plugins', 'ago-media' ); ?></a>
                         </p>
                     </div>
 
