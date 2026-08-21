@@ -56,7 +56,7 @@ When an image is converted to WebP, the original JPG or PNG is replaced by the n
 
 == External services ==
 
-This plugin does not connect to any external service. All image processing (WebP conversion, resize, EXIF stripping) runs locally with GD or Imagick. The donation links and the aGo Lab link in the admin page point to PayPal and ago.cl, opened only when the user clicks them.
+This plugin does not connect to any external service. All image processing (WebP conversion, resize, EXIF stripping) runs locally with GD or Imagick, and no data ever leaves the site. The admin page carries links that open only when the user clicks them: ago.cl (documentation and our other plugins), wordpress.org (the performance guide), pagespeed.web.dev (to measure a page), caniuse.com (WebP browser support) and paypal.me (voluntary donation). No script, style, font or image is loaded from any of them.
 
 == Privacy ==
 
